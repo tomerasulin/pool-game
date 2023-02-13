@@ -32,10 +32,10 @@ class GameWorld {
 
     // Table borders
     this.table = {
-      TopY: 39,
-      RightX: 945,
-      BottomY: 500,
-      LeftX: 39,
+      TopY: 44,
+      RightX: 942,
+      BottomY: 502,
+      LeftX: 43,
     };
   }
   update() {
