@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Pool Game</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: black;
+      }
+    </style>
+    <link rel="stylesheet" href="./styles/header/header.css" />
+    <link rel="stylesheet" href="./styles/header/__title/header__title.css" />
+    <link rel="stylesheet" href="./styles/players/players.css" />
+    <link
+      rel="stylesheet"
+      href="./styles/players/__player/players__player.css"
+    />
+    <link rel="stylesheet" href="./styles/score/score.css" />
+    <link rel="stylesheet" href="./styles/score/__result/score__result.css" />
+    <link rel="stylesheet" href="./styles/score/__player/score__player.css" />
+    <link rel="stylesheet" href="./styles/main/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__title">8-Ball Game</h1>
+      <div class="players">
+        <h2 class="players__player" id="player1-title">Player1</h2>
+        <h2 class="players__player" id="player2-title">Player2</h2>
+      </div>
+      <div class="score">
+        <p class="score__player" id="player1">0</p>
+        <h2 class="score__result">Score</h2>
+        <p class="score__player" id="player2">0</p>
+      </div>
+    </header>
+    <main class="main">
+      <canvas id="screen" width="982" height="540"></canvas>
+    </main>
+    <footer></footer>
+
+    <script src="Vector.js"></script>
+    <script src="inputs/ButtonState.js"></script>
+    <script src="inputs/Mouse.js"></script>
+    <script src="Canvas.js"></script>
+    <script src="Color.js"></script>
+    <script src="Assets.js"></script>
+    <script src="Player.js"></script>
+    <script src="Ball.js"></script>
+    <script src="Stick.js"></script>
+    <script src="GameWorld.js"></script>
+    <script src="Game.js"></script>
+
+    <script>
+      loadAssets(poolGame.start);
+    </script>
+  </body>
+</html>

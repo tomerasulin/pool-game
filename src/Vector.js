@@ -21,6 +21,8 @@ class Vector {
   addTo(vector) {
     this.x += vector.x;
     this.y += vector.y;
+
+    return this;
   }
 
   multiply(scalar) {
@@ -35,5 +37,12 @@ class Vector {
   // this method returns the length of a given vector |v| = sqrt(x^2 + y^2)
   length() {
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+  }
+
+  distanceFrom(vector) {
+    return Math.sqrt(
+      (this.x - vector.x) * (this.x - vector.x) +
+        (this.y - vector.y) * (this.y - vector.y)
+    );
   }
 }

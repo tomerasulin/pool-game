@@ -3,25 +3,23 @@ const STICK_SHOT_ORIGIN = new Vector(710, 10);
 const MAX_POWER = 3000;
 
 class Stick {
-  constructor(position, onShoot) {
+  constructor(position) {
     this.position = position;
     this.rotation = 0;
     this.origin = STICK_ORIGIN.copy();
     this.power = 0;
-    this.onShoot = onShoot;
     this.shot = false;
   }
 
-  update() {
+  update(whiteball) {
+    this.updateRotation();
     if (!this.shot) {
       if (mouse.left.down) {
         this.increasePower();
       } else if (this.power > 0) {
-        this.shoot();
+        this.shoot(whiteball);
       }
     }
-
-    this.updateRotation();
   }
 
   draw() {
@@ -44,8 +42,8 @@ class Stick {
     this.origin.x += 5;
   }
 
-  shoot() {
-    this.onShoot(this.power, this.rotation);
+  shoot(whiteball) {
+    whiteball.shoot(this.power, this.rotation);
     this.power = 0;
     this.origin = STICK_SHOT_ORIGIN.copy();
     this.shot = true;

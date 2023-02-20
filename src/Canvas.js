@@ -4,6 +4,11 @@ class Canvas2D {
   constructor() {
     this._canvas = document.getElementById('screen');
     this._ctx = this._canvas.getContext('2d'); // drawing context on the canvas -- 2D
+    this._player1 = document.getElementById('player1');
+    this._player2 = document.getElementById('player2');
+    this._player1Title = document.getElementById('player1-title');
+    this._player2Title = document.getElementById('player2-title');
+    this.colorDecision = true;
   }
 
   // this function will clear the specified pixels within a given rectangle
@@ -26,6 +31,26 @@ class Canvas2D {
     this._ctx.rotate(rotation); // adds a rotation to the transformation matrix
     this._ctx.drawImage(image, -origin.x, -origin.y);
     this._ctx.restore(); //restore the most recently saved state of the canvas
+  }
+
+  drawScore(player, score, color) {
+    if (this.colorDecision) {
+      if (color === COLOR.RED) {
+        this._player1Title.style.color = 'red';
+        this._player2Title.style.color = 'yellow';
+        this.colorDecision = false;
+      } else if (color === COLOR.YELLOW) {
+        this._player1Title.style.color = 'yellow';
+        this._player2Title.style.color = 'red';
+        this.colorDecision = false;
+      }
+    }
+
+    if (player.player === 'player1') {
+      this._player1.innerHTML = score;
+    } else {
+      this._player2.innerHTML = score;
+    }
   }
 }
 

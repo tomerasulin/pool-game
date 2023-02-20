@@ -3,25 +3,43 @@ const BALL_DIAMETER = 30;
 const BALL_RADIUS = BALL_DIAMETER / 2;
 
 class Ball {
-  constructor(position, color) {
+  constructor(position, color, index) {
     this.position = position;
     this.velocity = new Vector();
     this.moving = false; //indicator of ball movement
     this.ball = getBallImageByColor(color);
+    this.inHole = false;
+    this.visible = true;
+    this.color = color;
+    this.foul = false;
+    this.index = index;
   }
 
   update(delta) {
-    this.position.addTo(this.velocity.multiply(delta));
-    //apply friction
+    if (!this.moving || this.inHole) {
+      return;
+    }
+
+    let newPosition = this.position.addTo(this.velocity.multiply(delta));
+    if (poolGame.gameWorld.isInsideHole(newPosition)) {
+      this.position = newPosition;
+      this.inHole = true;
+      this.velocity = new Vector();
+      poolGame.gameWorld.handleBallIn(this);
+      return;
+    }
     this.velocity = this.velocity.multiply(0.98);
 
-    if (this.velocity.length() < 5) {
+    if (this.velocity.length() < 5 && this.moving) {
       this.velocity = new Vector();
       this.moving = false;
     }
   }
 
   draw() {
+    if (!this.visible) {
+      return;
+    }
     Canvas.drawImage(this.ball, this.position, BALL_ORIGIN);
   }
 
@@ -50,21 +68,25 @@ class Ball {
 
     if (this.position.y <= table.TopY + BALL_RADIUS) {
       this.velocity = new Vector(this.velocity.x, -this.velocity.y);
+      this.position.y = table.TopY + BALL_RADIUS;
       collided = true;
     }
 
     if (this.position.x >= table.RightX - BALL_RADIUS) {
       this.velocity = new Vector(-this.velocity.x, this.velocity.y);
+      this.position.x = table.RightX - BALL_RADIUS;
       collided = true;
     }
 
     if (this.position.y >= table.BottomY - BALL_RADIUS) {
       this.velocity = new Vector(this.velocity.x, -this.velocity.y);
+      this.position.y = table.BottomY - BALL_RADIUS;
       collided = true;
     }
 
     if (this.position.x <= table.LeftX + BALL_RADIUS) {
       this.velocity = new Vector(-this.velocity.x, this.velocity.y);
+      this.position.x = table.LeftX + BALL_RADIUS;
       collided = true;
     }
 
@@ -119,6 +141,10 @@ class Ball {
   */
 
   collideWithBall(ball) {
+    if (ball.inHole) {
+      return;
+    }
+
     // normal vector
     const normalVector = this.position.subtract(ball.position);
 

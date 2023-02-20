@@ -10,8 +10,7 @@ class Game {
   }
 
   mainLoop() {
-    Canvas.clear();
-
+    // Canvas.clear();
     poolGame.gameWorld.update();
     poolGame.gameWorld.draw();
     mouse.reset();
