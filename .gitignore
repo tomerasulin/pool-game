@@ -9,6 +9,7 @@ dist/
 
 # Optional npm cache directory
 .npm
+.json
 
 # System files and IDE settings folders
 .DS_Store
