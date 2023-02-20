@@ -1,1 +1,2 @@
 
+loadAssets(poolGame.start);
