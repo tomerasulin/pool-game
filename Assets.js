@@ -29,7 +29,7 @@ function loadAssets(callback) {
 
   // loading the assets
   assets.background = loadImage('poolBackground.png');
-  assets.stick = loadImage('stick.png');
+  assets.stick = loadImage('stick2.png');
   assets.whiteBall = loadImage('whiteBall.png');
   assets.redBall = loadImage('redBall.png');
   assets.yellowBall = loadImage('yellowBall.png');

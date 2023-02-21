@@ -8,6 +8,7 @@ class Canvas2D {
     this._player2 = document.getElementById('player2');
     this._player1Title = document.getElementById('player1-title');
     this._player2Title = document.getElementById('player2-title');
+    this._gameText = document.getElementById('game-text');
     this.colorDecision = true;
   }
 
@@ -36,12 +37,22 @@ class Canvas2D {
   drawScore(player, score, color) {
     if (this.colorDecision) {
       if (color === COLOR.RED) {
-        this._player1Title.style.color = 'red';
-        this._player2Title.style.color = 'yellow';
+        if (player === 'player1') {
+          this._player1Title.style.color = 'red';
+          this._player2Title.style.color = 'yellow';
+        } else {
+          this._player1Title.style.color = 'yellow';
+          this._player2Title.style.color = 'red';
+        }
         this.colorDecision = false;
       } else if (color === COLOR.YELLOW) {
-        this._player1Title.style.color = 'yellow';
-        this._player2Title.style.color = 'red';
+        if (player === 'player1') {
+          this._player1Title.style.color = 'yellow';
+          this._player2Title.style.color = 'red';
+        } else {
+          this._player1Title.style.color = 'red';
+          this._player2Title.style.color = 'yellow';
+        }
         this.colorDecision = false;
       }
     }
@@ -50,6 +61,15 @@ class Canvas2D {
       this._player1.innerHTML = score;
     } else {
       this._player2.innerHTML = score;
+    }
+  }
+
+  drawText(player) {
+    if (player.winner !== undefined) {
+      this._gameText.innerHTML = `${player.player} Winner`;
+      this._gameText.style.color = 'gold';
+    } else {
+      this._gameText.innerHTML = `${player.player} turn`;
     }
   }
 }

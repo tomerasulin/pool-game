@@ -1,5 +1,5 @@
-const STICK_ORIGIN = new Vector(730, 10);
-const STICK_SHOT_ORIGIN = new Vector(710, 10);
+const STICK_ORIGIN = new Vector(560, 9);
+const STICK_SHOT_ORIGIN = new Vector(540, 9);
 const MAX_POWER = 3000;
 
 class Stick {

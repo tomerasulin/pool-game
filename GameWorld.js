@@ -7,27 +7,29 @@ const HOLE_RADIUS = 20;
 class GameWorld {
   constructor() {
     this.balls = [
-      [new Vector(650, 270), COLOR.YELLOW, 1],
-      [new Vector(680, 255), COLOR.YELLOW, 2],
-      [new Vector(680, 285), COLOR.RED, 3],
-      [new Vector(710, 240), COLOR.RED, 4],
-      [new Vector(710, 270), COLOR.BLACK, 5],
-      [new Vector(710, 300), COLOR.YELLOW, 6],
-      [new Vector(740, 225), COLOR.YELLOW, 7],
-      [new Vector(740, 255), COLOR.RED, 8],
-      [new Vector(740, 285), COLOR.YELLOW, 9],
-      [new Vector(740, 315), COLOR.RED, 10],
-      [new Vector(770, 210), COLOR.RED, 11],
-      [new Vector(770, 240), COLOR.RED, 12],
-      [new Vector(770, 270), COLOR.YELLOW, 13],
-      [new Vector(770, 300), COLOR.RED, 14],
-      [new Vector(770, 330), COLOR.YELLOW, 15],
-      [new Vector(270, 270), COLOR.WHITE, 16],
-    ].map((params) => new Ball(params[0], params[1], params[2]));
+      [new Vector(650, 270), COLOR.YELLOW],
+      [new Vector(680, 255), COLOR.YELLOW],
+      [new Vector(680, 285), COLOR.RED],
+      [new Vector(710, 240), COLOR.RED],
+      [new Vector(710, 270), COLOR.BLACK],
+      [new Vector(710, 300), COLOR.YELLOW],
+      [new Vector(740, 225), COLOR.YELLOW],
+      [new Vector(740, 255), COLOR.RED],
+      [new Vector(740, 285), COLOR.YELLOW],
+      [new Vector(740, 315), COLOR.RED],
+      [new Vector(770, 210), COLOR.RED],
+      [new Vector(770, 240), COLOR.RED],
+      [new Vector(770, 270), COLOR.YELLOW],
+      [new Vector(770, 300), COLOR.RED],
+      [new Vector(770, 330), COLOR.YELLOW],
+      [new Vector(270, 270), COLOR.WHITE],
+    ].map((params) => new Ball(params[0], params[1]));
 
     this.whiteBall = this.balls[this.balls.length - 1];
     this.blackBall = this.balls[this.balls.length - 12];
-    this.stick = new Stick(new Vector(270, 270));
+    this.stick = new Stick(
+      new Vector(this.whiteBall.position.x, this.whiteBall.position.y)
+    );
 
     // Table borders
     this.table = {
@@ -54,6 +56,8 @@ class GameWorld {
 
     // black ball handling
     this.blackBallFoul = false;
+
+    this.collided = false;
   }
   update() {
     this.stick.update(this.whiteBall);
@@ -71,17 +75,27 @@ class GameWorld {
       this.blackBallFoul = false;
     }
 
-    if (!this.whiteBall.moving && this.stick.shot) {
+    if (!this.whiteBall.moving && this.stick.shot && !this.ballsMoving()) {
+      if (
+        this.players[this.turn].totalScore ===
+        this.players[this.turn].matchScore
+      ) {
+        this.switchTurn = true;
+      }
       this.stick.reposition(this.whiteBall.position); // reposition the stick to the new position of the white ball
     } else if (this.whiteBall.foul) {
-      this.whiteBall.position = new Vector(270, 270);
-      this.whiteBall.inHole = false;
-      this.whiteBall.foul = false;
+      setTimeout(() => {
+        this.whiteBall.position = new Vector(270, 270);
+        this.whiteBall.inHole = false;
+        this.whiteBall.foul = false;
+      }, 400);
     }
 
     if (this.switchTurn) {
+      console.log(this.players);
       this.turn++;
       this.turn %= 2;
+      this.players[this.turn].totalScore = this.players[this.turn].matchScore;
       this.switchTurn = false;
     }
   }
@@ -100,6 +114,8 @@ class GameWorld {
       this.getScore(),
       this.players[this.turn].color
     );
+
+    Canvas.drawText(this.players[this.turn]);
   }
 
   ballsMoving() {
@@ -162,31 +178,31 @@ class GameWorld {
 
   handleBallIn(ball) {
     let currentPlayer = this.players[this.turn];
-    let secondPlayer = this.players[this.turn + 1];
+    let secondPlayer = this.players[(this.turn + 1) % 2];
 
     if (currentPlayer.color === undefined) {
       if (ball.color === COLOR.RED) {
         currentPlayer.color = COLOR.RED;
         secondPlayer.color = COLOR.YELLOW;
         currentPlayer.matchScore++;
+        this.collided = true;
       } else if (ball.color === COLOR.YELLOW) {
         currentPlayer.color = COLOR.YELLOW;
         secondPlayer.color = COLOR.RED;
         currentPlayer.matchScore++;
+        this.collided = true;
       } else if (ball.color === COLOR.BLACK) {
         // handle if black ball is entered before (FOUL)
         this.blackBallFoul = true;
         this.switchTurn = true;
       } else {
         ball.foul = true;
-        this.switchTurn = true;
         // white ball entered = foul
       }
     } else if (currentPlayer.color === ball.color) {
       currentPlayer.matchScore++;
     } else if (ball.color === COLOR.WHITE) {
       ball.foul = true;
-      this.switchTurn = true;
     } else {
       if (this.balls.length === 2) {
         currentPlayer.winner = true;

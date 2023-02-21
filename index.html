@@ -9,6 +9,7 @@
       body {
         margin: 0;
         background-color: black;
+        cursor: none;
       }
     </style>
     <link rel="stylesheet" href="./styles/header/header.css" />
@@ -22,6 +23,10 @@
     <link rel="stylesheet" href="./styles/score/__result/score__result.css" />
     <link rel="stylesheet" href="./styles/score/__player/score__player.css" />
     <link rel="stylesheet" href="./styles/main/main.css" />
+    <link
+      rel="stylesheet"
+      href="./styles/main/__game-text/main__game-text.css"
+    />
   </head>
   <body>
     <header class="header">
@@ -38,6 +43,7 @@
     </header>
     <main class="main">
       <canvas id="screen" width="982" height="540"></canvas>
+      <span id="game-text" class="main__game-text"></span>
     </main>
     <footer></footer>
 

@@ -3,7 +3,7 @@ const BALL_DIAMETER = 30;
 const BALL_RADIUS = BALL_DIAMETER / 2;
 
 class Ball {
-  constructor(position, color, index) {
+  constructor(position, color) {
     this.position = position;
     this.velocity = new Vector();
     this.moving = false; //indicator of ball movement
@@ -12,7 +12,6 @@ class Ball {
     this.visible = true;
     this.color = color;
     this.foul = false;
-    this.index = index;
   }
 
   update(delta) {
@@ -55,6 +54,7 @@ class Ball {
     if (object instanceof Ball) {
       this.collideWithBall(object);
     } else {
+      // collide with the table
       this.collideWithTable(object);
     }
   }
@@ -151,7 +151,7 @@ class Ball {
     // distance(check whether a collision occurs)
     const dist = normalVector.length();
 
-    if (dist > BALL_DIAMETER) {
+    if (dist + 1 > BALL_DIAMETER) {
       // no collison
       return;
     }
