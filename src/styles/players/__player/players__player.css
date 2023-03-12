@@ -1,9 +1,0 @@
-.players__player {
-  color: white;
-  font-size: 36px;
-  margin: 0;
-}
-
-.players__player:first-child {
-  padding-right: 96px;
-}

@@ -28,16 +28,26 @@ class Canvas2D {
       origin = new Vector();
     }
     this._ctx.save(); // saves the entire state of the canvas by pushing the current state onto a stack
-    this._ctx.translate(position.x, position.y); // adds a translation transformation to the current matrix
+    this._ctx.translate(position.x + 500, position.y); // adds a translation transformation to the current matrix
     this._ctx.rotate(rotation); // adds a rotation to the transformation matrix
-    this._ctx.drawImage(image, -origin.x, -origin.y);
+    this._ctx.drawImage(
+      image,
+      0,
+      0,
+      image.width,
+      image.height,
+      -origin.x,
+      -origin.y,
+      image.width,
+      image.height
+    );
     this._ctx.restore(); //restore the most recently saved state of the canvas
   }
 
   drawScore(player, score, color) {
     if (this.colorDecision) {
       if (color === COLOR.RED) {
-        if (player === 'player1') {
+        if (player.player === 'player1') {
           this._player1Title.style.color = 'red';
           this._player2Title.style.color = 'yellow';
         } else {
@@ -46,7 +56,7 @@ class Canvas2D {
         }
         this.colorDecision = false;
       } else if (color === COLOR.YELLOW) {
-        if (player === 'player1') {
+        if (player.player === 'player1') {
           this._player1Title.style.color = 'yellow';
           this._player2Title.style.color = 'red';
         } else {

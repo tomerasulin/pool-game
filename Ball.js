@@ -98,44 +98,26 @@ class Ball {
   // Elastic Collison
   /*
   The algorithm:
-
   step 1: finding a unit normal vector
-
   Normal Vector: n = <x2 - x1, y2 - y1>
-
   Unit Vector of n: un = n / sqrt(nx^2 + ny^2)
-
-
   step 2: finding the unit tangent vector
-
   unit tangent vector: ut = <-uny, unx>
-
-
   step 3: resolve the velocities into normal and tangential components
   * dot product
-
   v1n = un * v1
   v1t = ut * v1
   v2n = un * v2
   v2t = ut * v2
-
-
   step 4: find a new normal velocities(both of our objects have the same mass) after the collision
-
   v`1n = v2n
-
   v`2n = v1n
-
-
   step 5: convert the scalar normal and tangential velocities into vectors
-
   v`1n = v`1n * un
   v`1t = v`1t * ut
   v`2n = v`2n * un
   v`2t = v`2t * ut
-
   step 6: updating the velocities
-
   v`1 = v`1n + v`1t
   v`2 = v`2n + v`2t 
   */

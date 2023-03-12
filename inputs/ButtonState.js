@@ -1,4 +1,4 @@
-// This object will indicate whether a certain button is pressed or down
+// This object will indicate whether a certain mouse button is pressed or down
 
 class ButtonState {
   constructor() {

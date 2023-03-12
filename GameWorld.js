@@ -82,6 +82,7 @@ class GameWorld {
       ) {
         this.switchTurn = true;
       }
+      this.players[this.turn].totalScore = this.players[this.turn].matchScore;
       this.stick.reposition(this.whiteBall.position); // reposition the stick to the new position of the white ball
     } else if (this.whiteBall.foul) {
       setTimeout(() => {
@@ -92,7 +93,6 @@ class GameWorld {
     }
 
     if (this.switchTurn) {
-      console.log(this.players);
       this.turn++;
       this.turn %= 2;
       this.players[this.turn].totalScore = this.players[this.turn].matchScore;
@@ -194,7 +194,6 @@ class GameWorld {
       } else if (ball.color === COLOR.BLACK) {
         // handle if black ball is entered before (FOUL)
         this.blackBallFoul = true;
-        this.switchTurn = true;
       } else {
         ball.foul = true;
         // white ball entered = foul
@@ -203,14 +202,17 @@ class GameWorld {
       currentPlayer.matchScore++;
     } else if (ball.color === COLOR.WHITE) {
       ball.foul = true;
-    } else {
-      if (this.balls.length === 2) {
-        currentPlayer.winner = true;
-      } else if (ball.color === COLOR.BLACK) {
+    } else if (ball.color === COLOR.BLACK) {
+      let counter = 0;
+      for (let i = 0; i < this.balls.length; i++) {
+        if (this.balls[i].color === currentPlayer.color) {
+          counter++;
+        }
+      }
+      if (counter > 0) {
         this.blackBallFoul = true;
-        this.switchTurn = true;
       } else {
-        this.switchTurn = true;
+        currentPlayer.winner = true;
       }
     }
 
