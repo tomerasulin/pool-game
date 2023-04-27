@@ -5,12 +5,34 @@ class Mouse {
     this.left = new ButtonState();
     this.middle = new ButtonState();
     this.right = new ButtonState();
+    this.touch = new ButtonState();
 
     this.position = new Vector();
 
     document.onmousemove = this.handleMouseMove;
     document.onmousedown = this.handleMouseDown;
     document.onmouseup = this.handleMouseUp;
+
+    document.addEventListener('touchstart', (e) => {
+      [...e.changedTouches].forEach(() => {
+        this.touch.pressed = true;
+      });
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      [...e.changedTouches].forEach((touch) => {
+        let x = touch.pageY;
+        let y = touch.pageX;
+        this.position = new Vector(x, y);
+        this.touch.down = true;
+      });
+    });
+
+    document.addEventListener('touchend', (e) => {
+      [...e.changedTouches].forEach(() => {
+        this.touch.down = false;
+      });
+    });
   }
 
   handleMouseDown(e) {
@@ -58,6 +80,7 @@ class Mouse {
     this.left.pressed = false;
     this.middle.pressed = false;
     this.right.pressed = false;
+    this.touch.pressed = false;
   }
 }
 

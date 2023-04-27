@@ -14,7 +14,7 @@ class Stick {
   update(whiteball) {
     this.updateRotation();
     if (!this.shot) {
-      if (mouse.left.down) {
+      if (mouse.left.down || mouse.touch.down) {
         this.increasePower();
       } else if (this.power > 0) {
         this.shoot(whiteball);
